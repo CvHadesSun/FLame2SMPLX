@@ -1,9 +1,10 @@
 '''
 Date: 2022-02-28 16:03:27
 LastEditors: cvhadessun
-LastEditTime: 2022-03-02 10:26:46
+LastEditTime: 2022-03-10 13:59:36
 FilePath: /FLame2SMPLX/src/utils/texture_match.py
 '''
+
 import cv2
 from .file_op import *
 import numpy as np
@@ -53,7 +54,7 @@ def affine_transform(p1,p2,tex1,tex2):
 def get_smplx_flame_crossrespondence_face_ids(smplx_template_obj,
                                             flame_template_obj,
                                             smplx_flame_vertex_ids,
-                                            ):
+                                            smplx_face_indexes=None):
     '''
     input:
         smplx_template_obj: smplx template obj /to/path/file.obj
@@ -69,7 +70,6 @@ def get_smplx_flame_crossrespondence_face_ids(smplx_template_obj,
     '''
 
     size=1024
-    
     # get smplx info from smplx template obj file.
     # s_verts = read_vertex_from_obj(smplx_template_obj)
     s_f_ids = read_vertex_faces_id_from_obj(smplx_template_obj)
@@ -92,6 +92,17 @@ def get_smplx_flame_crossrespondence_face_ids(smplx_template_obj,
 
     # smplx to flame vertex ids
     sf_ids = np.load(smplx_flame_vertex_ids)
+
+    
+    if smplx_face_indexes is not None:
+        # filtered other index but face vertices index
+        face_vertex_ids = np.load(smplx_face_indexes)
+        for j in range(f_verts.shape[0]):
+            if sf_ids[j] in face_vertex_ids[0]:
+                continue
+            else:
+                sf_ids[j] = -1
+        
     f_2_s_verts_ids = {}
     for ii in range(f_verts.shape[0]):
         f_2_s_verts_ids[ii] = sf_ids[ii]
@@ -116,9 +127,14 @@ def get_smplx_flame_crossrespondence_face_ids(smplx_template_obj,
 
     return flame_2_smplx_uv_ids,s_f_uvs,s_uv,f_f_uvs,f_uv
     
-def flame_smplx_texture_combine(flame_obj,smplx_obj,flame_texture,smplx_texture,smplx_flame_vertex_ids):
+def flame_smplx_texture_combine(flame_obj,
+                                smplx_obj,
+                                flame_texture,
+                                smplx_texture,
+                                smplx_flame_vertex_ids,
+                                smplx_face_indexes=None):
     
-    flame_2_smplx_uv_ids,smplx_faces,smplx_uv,flame_faces,flame_uv = get_smplx_flame_crossrespondence_face_ids(smplx_obj,flame_obj,smplx_flame_vertex_ids)
+    flame_2_smplx_uv_ids,smplx_faces,smplx_uv,flame_faces,flame_uv = get_smplx_flame_crossrespondence_face_ids(smplx_obj,flame_obj,smplx_flame_vertex_ids,smplx_face_indexes)
 
     # 
     flame_texture = cv2.imread(flame_texture)
@@ -147,6 +163,8 @@ def flame_smplx_texture_combine(flame_obj,smplx_obj,flame_texture,smplx_texture,
         # print(flame_p.shape)
         smplx_texture = affine_transform(flame_p,smplx_p,flame_texture,smplx_texture)
         
-
+    smplx_texture = cv2.medianBlur(smplx_texture,17)
 
     cv2.imwrite('../data/flame2smplx.png',smplx_texture)
+
+
