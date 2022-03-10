@@ -1,7 +1,7 @@
 '''
 Date: 2022-02-25 16:48:06
 LastEditors: cvhadessun
-LastEditTime: 2022-03-10 13:53:54
+LastEditTime: 2022-03-10 14:45:51
 FilePath: /FLame2SMPLX/src/main.py
 '''
 import cv2

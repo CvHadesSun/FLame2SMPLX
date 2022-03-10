@@ -1,7 +1,7 @@
 '''
 Date: 2022-02-28 16:03:27
 LastEditors: cvhadessun
-LastEditTime: 2022-03-10 13:59:36
+LastEditTime: 2022-03-10 14:46:04
 FilePath: /FLame2SMPLX/src/utils/texture_match.py
 '''
 
@@ -165,6 +165,7 @@ def flame_smplx_texture_combine(flame_obj,
         
     smplx_texture = cv2.medianBlur(smplx_texture,17)
 
-    cv2.imwrite('../data/flame2smplx.png',smplx_texture)
+    # cv2.imwrite('../data/flame2smplx.png',smplx_texture)
+    return smplx_texture
 
 
