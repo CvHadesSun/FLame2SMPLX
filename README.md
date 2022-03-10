@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-02-25 16:42:54
  * @LastEditors: cvhadessun
- * @LastEditTime: 2022-03-10 14:37:55
+ * @LastEditTime: 2022-03-10 14:48:59
  * @FilePath: /FLame2SMPLX/README.md
 -->
 # FLame2SMPLX
@@ -52,8 +52,10 @@ flame_texture = "../data/texures.png"
 face_vertex_ids = "../data/face_vertex_ids.npy"
 
 
-flame_smplx_texture_combine(flame_obj,smplx_obj,flame_texture,smplx_texture,smplx_2_flame,face_vertex_ids) # if  no face_vertex_ids parameter, whole flame head texture will be processed.
 
+tex_output = flame_smplx_texture_combine(flame_obj,smplx_obj,flame_texture,smplx_texture,smplx_2_flame,face_vertex_ids) # if  no face_vertex_ids parameter, whole flame head texture will be processed.
+
+cv2.imwrite('../data/output_texture.png',tex_output)
 ```
 
 ## change log
