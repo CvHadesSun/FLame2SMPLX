@@ -22,7 +22,7 @@ Flame albedo ->smplx/smpl albedo head or face
 - [smplx to flame vertices crosspondense index file](https://smpl-x.is.tue.mpg.de)
 - smplx only face vertices index (extract from smplx model, so following smplx right.)
 
-(if you want to test the demo,you can get all data from official web, or you can email cvhadessun@163.com to get the test data.)
+(test data [addr]( https://pan.baidu.com/s/1m4bbX_9IxTku3eyo-gFqfg?pwd=aaek))
 
 ## python-env
 ```
